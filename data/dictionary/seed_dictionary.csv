@@ -1,0 +1,153 @@
+headword,transliteration,meaning_en,part_of_speech
+अहम्,aham,I,pronoun
+त्वम्,tvam,you,pronoun
+सः,saḥ,he,pronoun
+सा,sā,she,pronoun
+तत्,tat,that / it,pronoun
+वयम्,vayam,we,pronoun
+यूयम्,yūyam,you (plural),pronoun
+ते,te,they / your,pronoun
+इदम्,idam,this,pronoun
+एतत्,etat,this,pronoun
+यः,yaḥ,who / which,pronoun
+च,ca,and,indeclinable
+वा,vā,or,indeclinable
+न,na,not,indeclinable
+अपि,api,also / even,indeclinable
+इति,iti,thus (quote marker),indeclinable
+तु,tu,but,indeclinable
+हि,hi,indeed / because,indeclinable
+एव,eva,indeed / only,indeclinable
+यदि,yadi,if,indeclinable
+तदा,tadā,then,indeclinable
+यदा,yadā,when,indeclinable
+यत्र,yatra,where,indeclinable
+तत्र,tatra,there,indeclinable
+कुत्र,kutra,where?,indeclinable
+कथम्,katham,how?,indeclinable
+किम्,kim,what?,pronoun
+सर्वम्,sarvam,all / everything,adjective
+सर्वे,sarve,all (plural),adjective
+एकः,ekaḥ,one,numeral
+द्वौ,dvau,two,numeral
+त्रयः,trayaḥ,three,numeral
+चत्वारः,catvāraḥ,four,numeral
+पञ्च,pañca,five,numeral
+गुरुः,guruḥ,teacher,noun
+शिष्यः,śiṣyaḥ,student,noun
+राजा,rājā,king,noun
+प्रजा,prajā,subject / people,noun
+देवः,devaḥ,god,noun
+देवी,devī,goddess,noun
+मनुष्यः,manuṣyaḥ,human being,noun
+आत्मा,ātmā,self / soul,noun
+ब्रह्म,brahma,the absolute / Brahman,noun
+जीवः,jīvaḥ,individual soul,noun
+मनः,manaḥ,mind,noun
+बुद्धिः,buddhiḥ,intellect,noun
+ज्ञानम्,jñānam,knowledge,noun
+अज्ञानम्,ajñānam,ignorance,noun
+सत्यम्,satyam,truth,noun
+धर्मः,dharmaḥ,duty / righteousness,noun
+कर्म,karma,action / deed,noun
+मोक्षः,mokṣaḥ,liberation,noun
+संसारः,saṃsāraḥ,cycle of rebirth / worldly existence,noun
+योगः,yogaḥ,union / spiritual discipline,noun
+भक्तिः,bhaktiḥ,devotion,noun
+शान्तिः,śāntiḥ,peace,noun
+आनन्दः,ānandaḥ,bliss,noun
+जगत्,jagat,world,noun
+लोकः,lokaḥ,world / realm,noun
+कालः,kālaḥ,time,noun
+सूर्यः,sūryaḥ,sun,noun
+चन्द्रः,candraḥ,moon,noun
+अग्निः,agniḥ,fire,noun
+वायुः,vāyuḥ,wind / air,noun
+जलम्,jalam,water,noun
+पृथ्वी,pṛthvī,earth,noun
+आकाशः,ākāśaḥ,sky / space,noun
+गृहम्,gṛham,house,noun
+वनम्,vanam,forest,noun
+नदी,nadī,river,noun
+पर्वतः,parvataḥ,mountain,noun
+पुत्रः,putraḥ,son,noun
+पुत्री,putrī,daughter,noun
+पिता,pitā,father,noun
+माता,mātā,mother,noun
+भ्राता,bhrātā,brother,noun
+भार्या,bhāryā,wife,noun
+पतिः,patiḥ,husband,noun
+मित्रम्,mitram,friend,noun
+शत्रुः,śatruḥ,enemy,noun
+वृक्षः,vṛkṣaḥ,tree,noun
+पुष्पम्,puṣpam,flower,noun
+फलम्,phalam,fruit / result,noun
+गजः,gajaḥ,elephant,noun
+अश्वः,aśvaḥ,horse,noun
+गौः,gauḥ,cow,noun
+सिंहः,siṃhaḥ,lion,noun
+पक्षी,pakṣī,bird,noun
+अस्ति,asti,is (3rd person sing.),verb
+सन्ति,santi,are (3rd person plural),verb
+भवति,bhavati,becomes / is,verb
+गच्छति,gacchati,goes,verb
+आगच्छति,āgacchati,comes,verb
+करोति,karoti,does,verb
+पश्यति,paśyati,sees,verb
+वदति,vadati,speaks,verb
+शृणोति,śṛṇoti,hears,verb
+पठति,paṭhati,reads,verb
+लिखति,likhati,writes,verb
+जानाति,jānāti,knows,verb
+ददाति,dadāti,gives,verb
+गृह्णाति,gṛhṇāti,takes,verb
+तिष्ठति,tiṣṭhati,stands / stays,verb
+हसति,hasati,laughs,verb
+रोदिति,roditi,cries,verb
+खादति,khādati,eats,verb
+पिबति,pibati,drinks,verb
+वसति,vasati,dwells / lives,verb
+नमस्ते,namaste,greetings / salutations to you,indeclinable
+स्वस्ति,svasti,well-being / auspiciousness,indeclinable
+शुभम्,śubham,auspicious,adjective
+शुद्धः,śuddhaḥ,pure,adjective
+महान्,mahān,great,adjective
+लघुः,laghuḥ,small / light,adjective
+उत्तमः,uttamaḥ,best / highest,adjective
+अधमः,adhamaḥ,lowest,adjective
+सुन्दरः,sundaraḥ,beautiful,adjective
+पुरातनः,purātanaḥ,ancient,adjective
+नवीनः,navīnaḥ,new,adjective
+सुखम्,sukham,happiness,noun
+दुःखम्,duḥkham,sorrow / suffering,noun
+भयम्,bhayam,fear,noun
+क्रोधः,krodhaḥ,anger,noun
+लोभः,lobhaḥ,greed,noun
+मोहः,mohaḥ,delusion,noun
+प्रेम,prema,love,noun
+इच्छा,icchā,desire,noun
+वाणी,vāṇī,speech,noun
+मन्त्रः,mantraḥ,sacred formula,noun
+यज्ञः,yajñaḥ,sacrifice / ritual,noun
+वेदः,vedaḥ,the Vedas,noun
+शास्त्रम्,śāstram,scripture / treatise,noun
+श्लोकः,ślokaḥ,verse,noun
+अध्यायः,adhyāyaḥ,chapter,noun
+पूर्वम्,pūrvam,before / previously,indeclinable
+पश्चात्,paścāt,afterward,indeclinable
+सदा,sadā,always,indeclinable
+कदाचित्,kadācit,sometimes,indeclinable
+अद्य,adya,today,indeclinable
+श्वः,śvaḥ,tomorrow,indeclinable
+ह्यः,hyaḥ,yesterday,indeclinable
+अत्र,atra,here,indeclinable
+अन्यत्र,anyatra,elsewhere,indeclinable
+सह,saha,together with,indeclinable
+विना,vinā,without,indeclinable
+अन्तः,antaḥ,end / within,noun
+आदिः,ādiḥ,beginning,noun
+मध्यम्,madhyam,middle,noun
+प्रथमः,prathamaḥ,first,adjective
+अन्तिमः,antimaḥ,last,adjective
+परमः,paramaḥ,highest / supreme,adjective
+अहिंसा,ahiṃsā,non-violence,noun

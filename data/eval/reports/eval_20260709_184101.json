@@ -1,0 +1,227 @@
+{
+  "generated_at": "2026-07-09T18:41:01",
+  "num_sentences": 25,
+  "overall_avg_coverage": 0.967,
+  "coverage_by_category": {
+    "constructed_simple": 1.0,
+    "constructed_case": 1.0,
+    "traditional_maxim": 1.0,
+    "harder_compound": 0.833,
+    "harder_verb_class": 1.0,
+    "harder_case": 1.0,
+    "harder_sandhi": 0.5
+  },
+  "match_type_breakdown": {
+    "stemmed": 35,
+    "exact": 35,
+    "fuzzy": 6,
+    "sandhi": 1,
+    "none": 2
+  },
+  "per_sentence": [
+    {
+      "id": "1",
+      "category": "constructed_simple",
+      "sanskrit": "अहं गुरुं पश्यामि।",
+      "reference_translation": "I see the teacher.",
+      "coverage": 1.0,
+      "unglossed_tokens": []
+    },
+    {
+      "id": "2",
+      "category": "constructed_simple",
+      "sanskrit": "त्वं सत्यं वदसि।",
+      "reference_translation": "You speak the truth.",
+      "coverage": 1.0,
+      "unglossed_tokens": []
+    },
+    {
+      "id": "3",
+      "category": "constructed_simple",
+      "sanskrit": "सः वनं गच्छति।",
+      "reference_translation": "He goes to the forest.",
+      "coverage": 1.0,
+      "unglossed_tokens": []
+    },
+    {
+      "id": "4",
+      "category": "constructed_simple",
+      "sanskrit": "सा गृहं गच्छति।",
+      "reference_translation": "She goes to the house.",
+      "coverage": 1.0,
+      "unglossed_tokens": []
+    },
+    {
+      "id": "5",
+      "category": "constructed_simple",
+      "sanskrit": "वयं वनं गच्छामः।",
+      "reference_translation": "We go to the forest.",
+      "coverage": 1.0,
+      "unglossed_tokens": []
+    },
+    {
+      "id": "6",
+      "category": "constructed_simple",
+      "sanskrit": "यूयं गृहं गच्छथ।",
+      "reference_translation": "You all go to the house.",
+      "coverage": 1.0,
+      "unglossed_tokens": []
+    },
+    {
+      "id": "7",
+      "category": "constructed_simple",
+      "sanskrit": "ते वनं गच्छन्ति।",
+      "reference_translation": "They go to the forest.",
+      "coverage": 1.0,
+      "unglossed_tokens": []
+    },
+    {
+      "id": "8",
+      "category": "constructed_case",
+      "sanskrit": "गुरुः शिष्यं पश्यति।",
+      "reference_translation": "The teacher sees the student.",
+      "coverage": 1.0,
+      "unglossed_tokens": []
+    },
+    {
+      "id": "9",
+      "category": "constructed_case",
+      "sanskrit": "शिष्यः श्लोकं पठति।",
+      "reference_translation": "The student reads a verse.",
+      "coverage": 1.0,
+      "unglossed_tokens": []
+    },
+    {
+      "id": "10",
+      "category": "constructed_case",
+      "sanskrit": "माता पुत्रं पश्यति।",
+      "reference_translation": "The mother sees the son.",
+      "coverage": 1.0,
+      "unglossed_tokens": []
+    },
+    {
+      "id": "11",
+      "category": "constructed_case",
+      "sanskrit": "पिता पुत्रीं पश्यति।",
+      "reference_translation": "The father sees the daughter.",
+      "coverage": 1.0,
+      "unglossed_tokens": []
+    },
+    {
+      "id": "12",
+      "category": "constructed_case",
+      "sanskrit": "राजा धर्मं जानाति।",
+      "reference_translation": "The king knows dharma (duty).",
+      "coverage": 1.0,
+      "unglossed_tokens": []
+    },
+    {
+      "id": "13",
+      "category": "constructed_case",
+      "sanskrit": "देवः गृहे वसति।",
+      "reference_translation": "The god dwells in the house.",
+      "coverage": 1.0,
+      "unglossed_tokens": []
+    },
+    {
+      "id": "14",
+      "category": "constructed_case",
+      "sanskrit": "सूर्यः आकाशे अस्ति।",
+      "reference_translation": "The sun is in the sky.",
+      "coverage": 1.0,
+      "unglossed_tokens": []
+    },
+    {
+      "id": "15",
+      "category": "constructed_case",
+      "sanskrit": "वृक्षे पुष्पं भवति।",
+      "reference_translation": "There is a flower on the tree.",
+      "coverage": 1.0,
+      "unglossed_tokens": []
+    },
+    {
+      "id": "16",
+      "category": "constructed_case",
+      "sanskrit": "सिंहः वने वसति।",
+      "reference_translation": "The lion lives in the forest.",
+      "coverage": 1.0,
+      "unglossed_tokens": []
+    },
+    {
+      "id": "17",
+      "category": "constructed_case",
+      "sanskrit": "गौः जलं पिबति।",
+      "reference_translation": "The cow drinks water.",
+      "coverage": 1.0,
+      "unglossed_tokens": []
+    },
+    {
+      "id": "18",
+      "category": "constructed_case",
+      "sanskrit": "पक्षी वृक्षे तिष्ठति।",
+      "reference_translation": "The bird sits on the tree.",
+      "coverage": 1.0,
+      "unglossed_tokens": []
+    },
+    {
+      "id": "19",
+      "category": "traditional_maxim",
+      "sanskrit": "सत्यं वद। धर्मं चर।",
+      "reference_translation": "Speak the truth. Practice dharma.",
+      "coverage": 1.0,
+      "unglossed_tokens": []
+    },
+    {
+      "id": "20",
+      "category": "traditional_maxim",
+      "sanskrit": "अहिंसा परमो धर्मः।",
+      "reference_translation": "Non-violence is the highest duty.",
+      "coverage": 1.0,
+      "unglossed_tokens": []
+    },
+    {
+      "id": "21",
+      "category": "harder_compound",
+      "sanskrit": "राजपुत्रः वनं गच्छति।",
+      "reference_translation": "The king's son goes to the forest.",
+      "coverage": 1.0,
+      "unglossed_tokens": []
+    },
+    {
+      "id": "22",
+      "category": "harder_compound",
+      "sanskrit": "गुरुशिष्यौ श्लोकं पठतः।",
+      "reference_translation": "The teacher and student read a verse.",
+      "coverage": 0.67,
+      "unglossed_tokens": [
+        "पठतः"
+      ]
+    },
+    {
+      "id": "23",
+      "category": "harder_verb_class",
+      "sanskrit": "सः पुस्तकं करोति। सा गृहं पश्यति।",
+      "reference_translation": "He makes a book. She sees the house.",
+      "coverage": 1.0,
+      "unglossed_tokens": []
+    },
+    {
+      "id": "24",
+      "category": "harder_case",
+      "sanskrit": "गुरुभिः सह शिष्याः गच्छन्ति।",
+      "reference_translation": "The students go together with the teachers.",
+      "coverage": 1.0,
+      "unglossed_tokens": []
+    },
+    {
+      "id": "25",
+      "category": "harder_sandhi",
+      "sanskrit": "तथैव भवति।",
+      "reference_translation": "It happens just so.",
+      "coverage": 0.5,
+      "unglossed_tokens": [
+        "तथैव"
+      ]
+    }
+  ]
+}

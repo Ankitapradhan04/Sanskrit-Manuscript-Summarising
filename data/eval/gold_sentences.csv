@@ -1,0 +1,26 @@
+id,category,sanskrit,reference_translation,notes
+1,constructed_simple,अहं गुरुं पश्यामि।,I see the teacher.,tests 1st-person verb + accusative noun
+2,constructed_simple,त्वं सत्यं वदसि।,You speak the truth.,tests 2nd-person singular verb
+3,constructed_simple,सः वनं गच्छति।,He goes to the forest.,neuter noun; accusative = nominative form
+4,constructed_simple,सा गृहं गच्छति।,She goes to the house.,neuter noun; accusative = nominative form
+5,constructed_simple,वयं वनं गच्छामः।,We go to the forest.,tests 1st-person plural verb
+6,constructed_simple,यूयं गृहं गच्छथ।,You all go to the house.,tests 2nd-person plural verb
+7,constructed_simple,ते वनं गच्छन्ति।,They go to the forest.,tests 3rd-person plural verb
+8,constructed_case,गुरुः शिष्यं पश्यति।,The teacher sees the student.,masculine accusative; needs 2-step stemming (anusvara + case)
+9,constructed_case,शिष्यः श्लोकं पठति।,The student reads a verse.,masculine accusative; needs 2-step stemming
+10,constructed_case,माता पुत्रं पश्यति।,The mother sees the son.,masculine accusative; needs 2-step stemming
+11,constructed_case,पिता पुत्रीं पश्यति।,The father sees the daughter.,"known gap: feminine ī-stem accusative, case heuristics assume masculine a-stem"
+12,constructed_case,राजा धर्मं जानाति।,The king knows dharma (duty).,masculine accusative; needs 2-step stemming
+13,constructed_case,देवः गृहे वसति।,The god dwells in the house.,"known gap: neuter locative, case heuristics assume masculine nominative -ः ending"
+14,constructed_case,सूर्यः आकाशे अस्ति।,The sun is in the sky.,masculine locative; single-step case stemming should resolve cleanly
+15,constructed_case,वृक्षे पुष्पं भवति।,There is a flower on the tree.,mixed: masculine locative (resolves) + neuter accusative (exact match)
+16,constructed_case,सिंहः वने वसति।,The lion lives in the forest.,"known gap: neuter locative (वने), same systemic gap as #13"
+17,constructed_case,गौः जलं पिबति।,The cow drinks water.,neuter accusative = nominative form; single anusvara step
+18,constructed_case,पक्षी वृक्षे तिष्ठति।,The bird sits on the tree.,should fully resolve: exact + stemmed + exact
+19,traditional_maxim,सत्यं वद। धर्मं चर।,Speak the truth. Practice dharma.,"Taittiriya Upanishad 1.11; imperative verb forms not covered by current stemmer -- expected gap"
+20,traditional_maxim,अहिंसा परमो धर्मः।,Non-violence is the highest duty.,"well-known traditional maxim (Mahabharata); words not in the 150-entry seed dictionary -- expected gap"
+21,harder_compound,राजपुत्रः वनं गच्छति।,The king's son goes to the forest.,"tatpurusha compound (राजन् + पुत्रः); compound-member stem forms often lack the case endings our stemmer expects"
+22,harder_compound,गुरुशिष्यौ श्लोकं पठतः।,The teacher and student read a verse.,"dvandva compound + dual verb form (पठतः); dual number isn't covered by VERB_PERSON_ENDINGS at all"
+23,harder_verb_class,सः पुस्तकं करोति। सा गृहं पश्यति।,He makes a book. She sees the house.,"पुस्तकम् not in seed dictionary; second clause should resolve fully via existing rules"
+24,harder_case,गुरुभिः सह शिष्याः गच्छन्ति।,The students go together with the teachers.,"instrumental plural (-भिः) not in NOUN_CASE_ENDINGS at all -- expected gap, good next-iteration target"
+25,harder_sandhi,तथैव भवति।,It happens just so.,"tathā + eva sandhi (vowel sandhi, a class not covered by any current rule); तथा itself also isn't in the seed dictionary"
