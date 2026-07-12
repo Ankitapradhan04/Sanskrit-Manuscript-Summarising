@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Translate & Summarize</h1>
+
+  <div class="card">
+    <form method="post" enctype="multipart/form-data">
+      <label>Paste Sanskrit text (Devanagari)</label>
+      <textarea name="text" rows="3" placeholder="अहं गच्छामि"></textarea>
+
+      <label>...or upload a manuscript page image</label>
+      <input type="file" name="image" accept="image/*">
+
+      <label>...or reference a manuscript ID already in the database</label>
+      <input type="text" name="manuscript_id" placeholder="e.g. 3">
+
+      <label><input type="checkbox" name="use_llm" checked style="width:auto;"> Polish with language model (slower, first run downloads a small model)</label>
+
+      <br><br>
+      <button type="submit">Translate</button>
+    </form>
+  </div>
+
+  {% if result %}
+  <div class="card">
+    <h2>Source</h2>
+    <p class="devanagari">{{ result.source_text }}</p>
+
+    <h2>Word-by-word gloss</h2>
+    <table>
+      <tr><th>Word</th><th>Meaning</th><th>Confidence</th></tr>
+      {% for g in result.gloss %}
+      <tr class="{{ '' if g.matched else 'unglossed' }}">
+        <td class="devanagari">{{ g.token }}</td>
+        <td>{{ g.meaning }}{% if g.note %}<br><small>{{ g.note }}</small>{% endif %}</td>
+        <td>{{ g.match_type }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    <p><b>Vocabulary coverage:</b> {{ (result.vocabulary_coverage * 100)|round|int }}%</p>
+
+    <h2>Fluent translation</h2>
+    <p>{{ result.fluent_translation }}</p>
+
+    <h2>Summary</h2>
+    <p>{{ result.summary }}</p>
+  </div>
+  {% endif %}
+{% endblock %}

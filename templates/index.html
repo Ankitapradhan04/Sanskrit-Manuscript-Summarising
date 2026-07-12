@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Sanskrit Manuscript Summarizer</h1>
+
+  <div class="card">
+    <div class="stat"><b>{{ stats.manuscript_counts.get('good', 0) }}</b>good manuscripts</div>
+    <div class="stat"><b>{{ stats.manuscript_counts.get('rejected', 0) }}</b>rejected pages</div>
+    <div class="stat"><b>{{ stats.vocab_size }}</b>vocabulary entries</div>
+    <div class="stat"><b>{{ stats.grammar_patterns }}</b>grammar patterns learned</div>
+  </div>
+
+  <div class="card">
+    <h2>Good manuscripts in the reference database</h2>
+    {% if manuscripts %}
+    <table>
+      <tr><th>ID</th><th>Source</th><th>Confidence</th><th>Devanagari ratio</th><th></th></tr>
+      {% for m in manuscripts %}
+      <tr>
+        <td>{{ m.id }}</td>
+        <td>{{ m.source }}</td>
+        <td>{{ "%.0f"|format(m.avg_confidence) }}%</td>
+        <td>{{ "%.2f"|format(m.devanagari_ratio) }}</td>
+        <td><a href="{{ url_for('translate') }}?manuscript_id={{ m.id }}">Translate this one &rarr;</a></td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% else %}
+      <p>No manuscripts ingested yet. Run <code>python -m src.fetch_archive_org</code> and
+      <code>python -m src.ingest_manuscripts</code> from the command line first.</p>
+    {% endif %}
+  </div>
+{% endblock %}

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Sanskrit Manuscript Summarizer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; background: #faf7f0; color: #2b2118; }
+    header { background: #6b3e26; color: #fff; padding: 1.2rem 2rem; }
+    header a { color: #fff; text-decoration: none; margin-right: 1.5rem; font-weight: 600; }
+    main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem; }
+    .card { background: #fff; border: 1px solid #e6ddcf; border-radius: 10px; padding: 1.5rem; margin-bottom: 1.5rem; }
+    .devanagari { font-size: 1.3rem; }
+    table { width: 100%; border-collapse: collapse; }
+    td, th { text-align: left; padding: 0.4rem 0.6rem; border-bottom: 1px solid #eee; }
+    .unglossed { color: #b3441e; font-style: italic; }
+    input[type=text], textarea { width: 100%; padding: 0.6rem; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; box-sizing: border-box; }
+    button { background: #6b3e26; color: #fff; border: none; padding: 0.7rem 1.4rem; border-radius: 6px; font-size: 1rem; cursor: pointer; }
+    .flash { background: #ffe8dc; border: 1px solid #e3a483; padding: 0.8rem 1rem; border-radius: 6px; margin-bottom: 1rem; }
+    .stat { display: inline-block; margin-right: 2rem; }
+    .stat b { display: block; font-size: 1.4rem; }
+    label { display: block; margin: 0.8rem 0 0.3rem; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="{{ url_for('index') }}">Manuscripts</a>
+    <a href="{{ url_for('translate') }}">Translate</a>
+  </header>
+  <main>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for m in messages %}<div class="flash">{{ m }}</div>{% endfor %}
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>
