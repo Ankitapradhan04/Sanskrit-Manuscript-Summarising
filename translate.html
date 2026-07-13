@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}Translate — Sanskrit Manuscript Summarizer{% endblock %}
+{% block content %}
+
+<span class="eyebrow">Step 3 · Gloss, then polish</span>
+<h1>Translate a Sanskrit text</h1>
+<p style="max-width: 60ch;">
+  Paste Devanagari text, upload a manuscript page, or pick something already
+  in your library. Each word gets glossed against the vocabulary reference —
+  the underline style below every word shows how confidently it was matched.
+</p>
+
+<div class="card">
+  <form method="post" enctype="multipart/form-data">
+    <label for="text">Paste Sanskrit text</label>
+    <textarea id="text" name="text" rows="3" class="deva-input" placeholder="अहं गच्छामि">{{ request.form.text if request.form else '' }}</textarea>
+
+    <div class="divider-or">or</div>
+
+    <label for="image">Upload a manuscript page image <span class="hint">(JPG, PNG, TIFF, BMP)</span></label>
+    <input type="file" id="image" name="image" accept="image/*">
+
+    <div class="divider-or">or</div>
+
+    <label for="manuscript_id">Choose from your library</label>
+    <select id="manuscript_id" name="manuscript_id">
+      <option value="">— none selected —</option>
+      {% for m in manuscript_options %}
+      <option value="{{ m.id }}" {{ "selected" if preselected_id == m.id }}>
+        #{{ m.id }} — {{ m.source }} ({{ "%.0f"|format(m.avg_confidence) }}% confidence)
+      </option>
+      {% endfor %}
+    </select>
+    {% if not manuscript_options %}
+    <p style="font-size: 0.85rem; margin-top: 0.4rem;">No manuscripts in your library yet — see the <a href="{{ url_for('index') }}">dashboard</a> for how to add some.</p>
+    {% endif %}
+
+    <div class="checkbox-row">
+      <input type="checkbox" id="use_llm" name="use_llm" checked>
+      <label for="use_llm">Polish with language model <span class="hint">(slower; first run downloads a small model)</span></label>
+    </div>
+
+    <div style="margin-top: 1.5rem;">
+      <button type="submit" class="btn">Translate →</button>
+    </div>
+  </form>
+</div>
+
+{% if result %}
+<div class="card">
+  <h2>Source</h2>
+  <div class="deva-source">{{ result.source_text }}</div>
+
+  <h2 style="margin-top: 1.75rem;">Word-by-word gloss</h2>
+  <div class="coverage-label">
+    Vocabulary coverage: {{ (result.vocabulary_coverage * 100)|round|int }}%
+  </div>
+  <div class="coverage-bar">
+    <div class="coverage-bar__fill" style="width: {{ (result.vocabulary_coverage * 100)|round|int }}%;"></div>
+  </div>
+
+  <div class="gloss-strip">
+    {% for g in result.gloss %}
+    <div class="gloss-word" data-match="{{ g.match_type }}" title="{{ g.note if g.note else g.match_type }}">
+      <div class="gloss-word__deva">{{ g.token }}</div>
+      {% if g.transliteration %}<div class="gloss-word__translit">{{ g.transliteration }}</div>{% endif %}
+      <div class="gloss-word__meaning {{ 'unglossed' if not g.matched }}">{{ g.meaning }}</div>
+      <span class="badge badge-{{ g.match_type }}" style="margin-top: 0.35rem;">{{ g.match_type }}</span>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="translation-block">
+    <h2>Fluent translation</h2>
+    <p class="fluent">{{ result.fluent_translation }}</p>
+  </div>
+
+  <div class="translation-block">
+    <h2>Summary</h2>
+    <p>{{ result.summary }}</p>
+  </div>
+</div>
+{% endif %}
+
+{% endblock %}
