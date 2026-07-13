@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}History — Sanskrit Manuscript Summarizer{% endblock %}
+{% block content %}
+
+<span class="eyebrow">Audit trail</span>
+<h1>Translation history</h1>
+<p>Every translation request, kept for reference.</p>
+
+{% if translations %}
+<div class="table-wrap">
+  <table>
+    <tr><th>ID</th><th>Input</th><th>Translation</th><th>When</th><th></th></tr>
+    {% for t in translations %}
+    <tr>
+      <td class="mono">#{{ t.id }}</td>
+      <td class="deva">{{ t.input_text[:40] }}{{ '…' if t.input_text|length > 40 }}</td>
+      <td>{{ t.translation_en[:60] }}{{ '…' if t.translation_en and t.translation_en|length > 60 }}</td>
+      <td class="mono" style="font-size: 0.8rem;">{{ t.created_at }}</td>
+      <td><a href="{{ url_for('history_detail', translation_id=t.id) }}">View →</a></td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+
+<div class="pagination">
+  <span>Page {{ p.page }} of {{ p.total_pages }} — {{ p.total }} translation{{ 's' if p.total != 1 }}</span>
+  <span>
+    {% if p.has_prev %}<a href="{{ url_for('history', page=p.page-1) }}">← Previous</a>{% else %}<span class="disabled">← Previous</span>{% endif %}
+    &nbsp;·&nbsp;
+    {% if p.has_next %}<a href="{{ url_for('history', page=p.page+1) }}">Next →</a>{% else %}<span class="disabled">Next →</span>{% endif %}
+  </span>
+</div>
+
+{% else %}
+<div class="empty-state">
+  <h3>No translations yet</h3>
+  <p>Run one from the <a href="{{ url_for('translate') }}">Translate</a> page and it'll show up here.</p>
+</div>
+{% endif %}
+
+{% endblock %}
