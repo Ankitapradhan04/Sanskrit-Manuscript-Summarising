@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Translation #{{ t.id }} — Sanskrit Manuscript Summarizer{% endblock %}
+{% block content %}
+
+<p><a href="{{ url_for('history') }}">← Back to history</a></p>
+
+<span class="eyebrow">Translation #{{ t.id }} · {{ t.created_at }}</span>
+<h1>Past translation</h1>
+
+<div class="card">
+  <h2>Source</h2>
+  <div class="deva-source">{{ t.input_text }}</div>
+
+  <div class="translation-block">
+    <h2>Fluent translation</h2>
+    <p class="fluent">{{ t.translation_en }}</p>
+  </div>
+
+  <div class="translation-block">
+    <h2>Summary</h2>
+    <p>{{ t.summary_en }}</p>
+  </div>
+
+  {% if t.manuscript_id %}
+  <p><a href="{{ url_for('manuscript_detail', manuscript_id=t.manuscript_id) }}">View source manuscript #{{ t.manuscript_id }} →</a></p>
+  {% endif %}
+</div>
+
+{% endblock %}
