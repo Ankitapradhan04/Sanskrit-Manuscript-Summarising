@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Manuscripts — Sanskrit Manuscript Summarizer{% endblock %}
+{% block content %}
+
+<span class="eyebrow">Step 1 · Ingest</span>
+<h1>Manuscript library</h1>
+<p>Every page that's been OCR'd, scored, and filed as good or rejected — with the reason, if rejected.</p>
+
+<div class="filter-bar">
+  <a href="{{ url_for('manuscripts') }}" class="filter-chip {{ 'active' if not status }}">All ({{ counts.get('good', 0) + counts.get('rejected', 0) + counts.get('pending', 0) }})</a>
+  <a href="{{ url_for('manuscripts', status='good') }}" class="filter-chip {{ 'active' if status == 'good' }}">Good ({{ counts.get('good', 0) }})</a>
+  <a href="{{ url_for('manuscripts', status='rejected') }}" class="filter-chip {{ 'active' if status == 'rejected' }}">Rejected ({{ counts.get('rejected', 0) }})</a>
+</div>
+
+{% if manuscripts %}
+<div class="table-wrap">
+  <table>
+    <tr><th>ID</th><th>Source</th><th>Status</th><th>Confidence</th><th>Devanagari ratio</th><th>Chars</th><th></th></tr>
+    {% for m in manuscripts %}
+    <tr>
+      <td class="mono">#{{ m.id }}</td>
+      <td>{{ m.source }}</td>
+      <td><span class="badge badge-{{ m.status }}">{{ m.status }}</span></td>
+      <td>{{ "%.0f"|format(m.avg_confidence) }}%</td>
+      <td>{{ "%.2f"|format(m.devanagari_ratio) }}</td>
+      <td>{{ m.char_count }}</td>
+      <td>
+        <a href="{{ url_for('manuscript_detail', manuscript_id=m.id) }}">Details</a>
+        {% if m.status == 'good' %} · <a href="{{ url_for('translate', manuscript_id=m.id) }}">Translate</a>{% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+
+<div class="pagination">
+  <span>Page {{ p.page }} of {{ p.total_pages }} — {{ p.total }} manuscript{{ 's' if p.total != 1 }}</span>
+  <span>
+    {% if p.has_prev %}<a href="{{ url_for('manuscripts', status=status, page=p.page-1) }}">← Previous</a>{% else %}<span class="disabled">← Previous</span>{% endif %}
+    &nbsp;·&nbsp;
+    {% if p.has_next %}<a href="{{ url_for('manuscripts', status=status, page=p.page+1) }}">Next →</a>{% else %}<span class="disabled">Next →</span>{% endif %}
+  </span>
+</div>
+
+{% else %}
+<div class="empty-state">
+  <h3>No {{ status + ' ' if status }}manuscripts yet</h3>
+  <p>Pull sample pages from archive.org, or drop your own scans into <code>data/manuscripts/raw/</code>, then run:</p>
+  <code>python -m src.fetch_archive_org --count 100<br>python -m src.ingest_manuscripts</code>
+</div>
+{% endif %}
+
+{% endblock %}
