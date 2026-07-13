@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Vocabulary — Sanskrit Manuscript Summarizer{% endblock %}
+{% block content %}
+
+<span class="eyebrow">Step 2 · Reference</span>
+<h1>Vocabulary reference</h1>
+<p>Search across headword, transliteration, or English meaning.</p>
+
+<form method="get" class="search-row">
+  <input type="search" name="q" value="{{ query }}" placeholder="Search e.g. guru, teacher, गुरु…">
+  <button type="submit" class="btn">Search</button>
+</form>
+
+<div class="filter-bar">
+  <a href="{{ url_for('vocabulary', q=query) }}" class="filter-chip {{ 'active' if not source }}">All sources</a>
+  {% for src_name, n in by_source.items() %}
+  <a href="{{ url_for('vocabulary', q=query, source=src_name) }}" class="filter-chip {{ 'active' if source == src_name }}">{{ src_name }} ({{ "{:,}".format(n) }})</a>
+  {% endfor %}
+</div>
+
+{% if entries %}
+<div class="table-wrap">
+  <table>
+    <tr><th>Headword</th><th>Transliteration</th><th>Meaning</th><th>POS</th><th>Source</th><th>Freq</th></tr>
+    {% for e in entries %}
+    <tr>
+      <td class="deva" style="font-size: 1.1rem;">{{ e.headword }}</td>
+      <td class="mono">{{ e.transliteration or "—" }}</td>
+      <td>{{ e.meaning_en }}</td>
+      <td class="mono">{{ e.part_of_speech or "—" }}</td>
+      <td>
+        {% if e.source == 'dictionary_seed' %}<span class="badge badge-exact">seed</span>
+        {% elif e.source == 'mw_import' %}<span class="badge badge-fuzzy">mw</span>
+        {% else %}<span class="badge badge-pending">corpus</span>{% endif %}
+      </td>
+      <td class="mono">{{ e.corpus_freq }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+
+<div class="pagination">
+  <span>Page {{ p.page }} of {{ p.total_pages }} — {{ "{:,}".format(p.total) }} entr{{ 'y' if p.total == 1 else 'ies' }}</span>
+  <span>
+    {% if p.has_prev %}<a href="{{ url_for('vocabulary', q=query, source=source, page=p.page-1) }}">← Previous</a>{% else %}<span class="disabled">← Previous</span>{% endif %}
+    &nbsp;·&nbsp;
+    {% if p.has_next %}<a href="{{ url_for('vocabulary', q=query, source=source, page=p.page+1) }}">Next →</a>{% else %}<span class="disabled">Next →</span>{% endif %}
+  </span>
+</div>
+
+{% else %}
+<div class="empty-state">
+  {% if query or source %}
+  <h3>No entries match that search</h3>
+  <p>Try a different spelling, or search by English meaning instead of Devanagari.</p>
+  {% else %}
+  <h3>No vocabulary loaded yet</h3>
+  <p>Load the starter dictionary and, optionally, the full Monier-Williams import:</p>
+  <code>python -m src.dictionary_loader<br>python -m src.dictionary_loader --csv data/dictionary/monier_williams_full.csv --source-tag mw_import</code>
+  {% endif %}
+</div>
+{% endif %}
+
+{% endblock %}
