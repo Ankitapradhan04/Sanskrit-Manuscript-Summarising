@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — Sanskrit Manuscript Summarizer{% endblock %}
+{% block content %}
+
+<section class="hero">
+  <div class="hero__grid">
+    <div class="hero__intro">
+      <span class="eyebrow">Devanagari → gloss → English</span>
+      <h1>A transparent pipeline for reading Sanskrit manuscripts.</h1>
+      <p>
+        Every manuscript that enters this library is OCR'd, quality-checked, and
+        kept or rejected with a stated reason. Every translated word shows exactly
+        how its meaning was found — matched outright, recovered by stemming, split
+        by sandhi, or guessed by similarity — so nothing is presented with more
+        confidence than it's earned.
+      </p>
+      <a href="{{ url_for('translate') }}" class="btn">Translate a text →</a>
+    </div>
+    <div class="hero__demo">
+      <div class="hero__demo-source deva">गुरुः शिष्यं पश्यति</div>
+      <div class="hero__demo-reveal">
+        <div class="hero__demo-translit">guruḥ śiṣyaṃ paśyati</div>
+        <div class="hero__demo-gloss">"The teacher sees the student."</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="ledger">
+  <div class="ledger__cell">
+    <span class="ledger__value">{{ stats.manuscript_counts.get('good', 0) }}</span>
+    <span class="ledger__label">good manuscripts</span>
+  </div>
+  <div class="ledger__cell">
+    <span class="ledger__value">{{ stats.manuscript_counts.get('rejected', 0) }}</span>
+    <span class="ledger__label">rejected pages</span>
+  </div>
+  <div class="ledger__cell">
+    <span class="ledger__value">{{ "{:,}".format(stats.vocab_size) }}</span>
+    <span class="ledger__label">vocabulary entries</span>
+  </div>
+  <div class="ledger__cell">
+    <span class="ledger__value">{{ stats.grammar_patterns }}</span>
+    <span class="ledger__label">grammar patterns learned</span>
+  </div>
+  <div class="ledger__cell">
+    <span class="ledger__value">{{ stats.translations_done }}</span>
+    <span class="ledger__label">translations run</span>
+  </div>
+</div>
+
+<div class="card">
+  <h2>Vocabulary by provenance</h2>
+  <p style="margin-bottom: 1rem;">Every entry remembers where it came from, and hand-verified entries are preferred when sources disagree.</p>
+  {% if stats.vocab_by_source %}
+  <div class="table-wrap">
+    <table>
+      <tr><th>Source</th><th>Entries</th><th>Trust tier</th></tr>
+      {% for source, n in stats.vocab_by_source.items() %}
+      <tr>
+        <td class="mono">{{ source }}</td>
+        <td>{{ "{:,}".format(n) }}</td>
+        <td>
+          {% if source == 'dictionary_seed' %}<span class="badge badge-exact">hand-verified</span>
+          {% elif source == 'mw_import' %}<span class="badge badge-fuzzy">bulk-imported</span>
+          {% else %}<span class="badge badge-pending">corpus-derived</span>{% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <h3>No vocabulary loaded yet</h3>
+    <p>Load the starter dictionary to get going:</p>
+    <code>python -m src.dictionary_loader</code>
+  </div>
+  {% endif %}
+</div>
+
+<h2>How a manuscript gets here</h2>
+<div class="process">
+  <div class="process__step">
+    <span class="process__num">01 · Ingest</span>
+    <h3>OCR + quality filter</h3>
+    <p>Every page is scored on OCR confidence, Devanagari ratio, and garbage-token rate before it's trusted.</p>
+  </div>
+  <div class="process__step">
+    <span class="process__num">02 · Reference</span>
+    <h3>Vocabulary + grammar</h3>
+    <p>A hand-verified starter dictionary, a full Monier-Williams import, and patterns mined from good manuscripts.</p>
+  </div>
+  <div class="process__step">
+    <span class="process__num">03 · Translate</span>
+    <h3>Gloss, then polish</h3>
+    <p>Exact → stemmed → sandhi → fuzzy matching, each tagged with its confidence, then optionally smoothed into fluent English.</p>
+  </div>
+</div>
+
+<div class="card">
+  <div style="display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:0.5rem;">
+    <h2 style="margin-bottom:0;">Recently added manuscripts</h2>
+    <a href="{{ url_for('manuscripts') }}">View all →</a>
+  </div>
+  {% if recent %}
+  <div class="table-wrap" style="margin-top: 1rem;">
+    <table>
+      <tr><th>ID</th><th>Source</th><th>Confidence</th><th>Devanagari ratio</th><th></th></tr>
+      {% for m in recent %}
+      <tr>
+        <td class="mono">#{{ m.id }}</td>
+        <td>{{ m.source }}</td>
+        <td>{{ "%.0f"|format(m.avg_confidence) }}%</td>
+        <td>{{ "%.2f"|format(m.devanagari_ratio) }}</td>
+        <td>
+          <a href="{{ url_for('manuscript_detail', manuscript_id=m.id) }}">Details</a> ·
+          <a href="{{ url_for('translate', manuscript_id=m.id) }}">Translate</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <h3>Your manuscript library is empty</h3>
+    <p>Pull sample pages from archive.org, or drop your own scans into <code>data/manuscripts/raw/</code>, then run:</p>
+    <code>python -m src.fetch_archive_org --count 100<br>python -m src.ingest_manuscripts</code>
+  </div>
+  {% endif %}
+</div>
+
+{% endblock %}
