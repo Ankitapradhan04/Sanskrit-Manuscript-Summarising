@@ -1,0 +1,138 @@
+from src.database import (
+    insert_manuscript, get_manuscript, get_good_manuscripts, counts_by_status,
+    upsert_vocab, lookup_word, vocab_size, get_all_headwords,
+    upsert_pattern, get_patterns,
+    get_manuscripts, count_manuscripts,
+    search_vocabulary, count_vocabulary, vocab_counts_by_source,
+    save_translation, get_translations, count_translations, get_translation,
+)
+
+
+def test_insert_and_fetch_manuscript(temp_db):
+    mid = insert_manuscript(
+        source="test", source_id="page1.jpg", file_path="/tmp/page1.jpg",
+        raw_ocr_text="गुरुः शिष्यः", avg_confidence=80.0, devanagari_ratio=1.0,
+        garbage_ratio=0.0, char_count=12, status="good",
+    )
+    row = get_manuscript(mid)
+    assert row["source"] == "test"
+    assert row["status"] == "good"
+    assert row["raw_ocr_text"] == "गुरुः शिष्यः"
+
+
+def test_get_good_manuscripts_excludes_rejected(temp_db):
+    insert_manuscript(source="t", source_id="a", file_path="a", raw_ocr_text="x",
+                       avg_confidence=90, devanagari_ratio=1, garbage_ratio=0,
+                       char_count=50, status="good")
+    insert_manuscript(source="t", source_id="b", file_path="b", raw_ocr_text="y",
+                       avg_confidence=10, devanagari_ratio=0, garbage_ratio=1,
+                       char_count=5, status="rejected", reject_reason="too noisy")
+    good = get_good_manuscripts()
+    assert len(good) == 1
+    assert good[0]["source_id"] == "a"
+
+
+def test_counts_by_status(temp_db):
+    insert_manuscript(source="t", source_id="a", file_path="a", raw_ocr_text="x",
+                       avg_confidence=90, devanagari_ratio=1, garbage_ratio=0,
+                       char_count=50, status="good")
+    insert_manuscript(source="t", source_id="b", file_path="b", raw_ocr_text="y",
+                       avg_confidence=10, devanagari_ratio=0, garbage_ratio=1,
+                       char_count=5, status="rejected")
+    counts = counts_by_status()
+    assert counts["good"] == 1
+    assert counts["rejected"] == 1
+
+
+def test_upsert_vocab_inserts_new_entry(temp_db):
+    upsert_vocab("गुरुः", "guruḥ", "teacher", "noun", "dictionary_seed", freq_increment=0)
+    assert vocab_size() == 1
+    matches = lookup_word("गुरुः")
+    assert matches[0]["meaning_en"] == "teacher"
+
+
+def test_upsert_vocab_increments_frequency_on_repeat(temp_db):
+    upsert_vocab("गुरुः", "guruḥ", "teacher", "noun", "dictionary_seed", freq_increment=0)
+    upsert_vocab("गुरुः", "guruḥ", "teacher", "noun", "corpus_derived", freq_increment=5)
+    upsert_vocab("गुरुः", "guruḥ", "teacher", "noun", "corpus_derived", freq_increment=3)
+    matches = lookup_word("गुरुः")
+    assert len(matches) == 1  # same headword+meaning -> one row, frequency accumulates
+    assert matches[0]["corpus_freq"] == 8
+
+
+def test_lookup_word_orders_by_frequency_descending(temp_db):
+    # two distinct senses of the same headword; the more frequent one should come first
+    upsert_vocab("योगः", "yogaḥ", "union", "noun", "dictionary_seed", freq_increment=1)
+    upsert_vocab("योगः", "yogaḥ", "spiritual discipline", "noun", "dictionary_seed", freq_increment=1)
+    upsert_vocab("योगः", "yogaḥ", "spiritual discipline", "noun", "corpus_derived", freq_increment=10)
+    matches = lookup_word("योगः")
+    assert matches[0]["meaning_en"] == "spiritual discipline"
+
+
+def test_get_all_headwords_excludes_unglossed_placeholders(temp_db):
+    upsert_vocab("गुरुः", "guruḥ", "teacher", "noun", "dictionary_seed", freq_increment=0)
+    upsert_vocab("क्ष्", None, "(unglossed -- add meaning manually or via a fuller dictionary import)",
+                 None, "corpus_derived", freq_increment=2)
+    headwords = get_all_headwords()
+    assert "गुरुः" in headwords
+    assert "क्ष्" not in headwords
+
+
+def test_upsert_pattern_increments_frequency(temp_db):
+    upsert_pattern("case_suffix", "स्य", "genitive singular", "गुरोस्य")
+    upsert_pattern("case_suffix", "स्य", "genitive singular", "देवस्य")
+    patterns = get_patterns("case_suffix")
+    assert len(patterns) == 1
+    assert patterns[0]["frequency"] == 2
+
+
+def test_get_manuscripts_pagination(temp_db):
+    for i in range(5):
+        insert_manuscript(source="t", source_id=f"p{i}", file_path=f"p{i}", raw_ocr_text="x",
+                           avg_confidence=90, devanagari_ratio=1, garbage_ratio=0,
+                           char_count=50, status="good")
+    page1 = get_manuscripts(status="good", limit=2, offset=0)
+    page2 = get_manuscripts(status="good", limit=2, offset=2)
+    assert len(page1) == 2
+    assert len(page2) == 2
+    assert page1[0]["id"] != page2[0]["id"]
+    assert count_manuscripts(status="good") == 5
+
+
+def test_search_vocabulary_matches_headword_transliteration_or_meaning(temp_db):
+    upsert_vocab("गुरुः", "guruḥ", "teacher", "noun", "dictionary_seed", freq_increment=0)
+    upsert_vocab("शिष्यः", "śiṣyaḥ", "student", "noun", "dictionary_seed", freq_increment=0)
+    by_headword = search_vocabulary(query="गुरु")
+    by_translit = search_vocabulary(query="guru")
+    by_meaning = search_vocabulary(query="teach")
+    assert len(by_headword) == 1
+    assert len(by_translit) == 1
+    assert len(by_meaning) == 1
+    assert count_vocabulary(query="teach") == 1
+
+
+def test_search_vocabulary_filters_by_source(temp_db):
+    upsert_vocab("गुरुः", "guruḥ", "teacher", "noun", "dictionary_seed", freq_increment=0)
+    upsert_vocab("क्ष्", None, "some mw entry", None, "mw_import", freq_increment=0)
+    seed_only = search_vocabulary(source="dictionary_seed")
+    assert len(seed_only) == 1
+    assert seed_only[0]["headword"] == "गुरुः"
+
+
+def test_vocab_counts_by_source(temp_db):
+    upsert_vocab("गुरुः", "guruḥ", "teacher", "noun", "dictionary_seed", freq_increment=0)
+    upsert_vocab("शिष्यः", "śiṣyaḥ", "student", "noun", "mw_import", freq_increment=0)
+    counts = vocab_counts_by_source()
+    assert counts["dictionary_seed"] == 1
+    assert counts["mw_import"] == 1
+
+
+def test_translations_history_pagination_and_lookup(temp_db):
+    for i in range(3):
+        save_translation(None, f"text {i}", [{"token": "x", "meaning": "y"}], "translation", "summary")
+    all_translations = get_translations(limit=10)
+    assert len(all_translations) == 3
+    assert count_translations() == 3
+    first_id = all_translations[0]["id"]
+    fetched = get_translation(first_id)
+    assert fetched["id"] == first_id
