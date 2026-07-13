@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Manuscript #{{ m.id }} — Sanskrit Manuscript Summarizer{% endblock %}
+{% block content %}
+
+<p><a href="{{ url_for('manuscripts') }}">← Back to manuscripts</a></p>
+
+<span class="eyebrow">Manuscript #{{ m.id }}</span>
+<h1>{{ m.source }} <span class="mono" style="font-size: 1rem; color: var(--faint);">{{ m.source_id }}</span></h1>
+
+<div class="ledger">
+  <div class="ledger__cell">
+    <span class="ledger__value"><span class="badge badge-{{ m.status }}">{{ m.status }}</span></span>
+    <span class="ledger__label">status</span>
+  </div>
+  <div class="ledger__cell">
+    <span class="ledger__value">{{ "%.0f"|format(m.avg_confidence) }}%</span>
+    <span class="ledger__label">OCR confidence</span>
+  </div>
+  <div class="ledger__cell">
+    <span class="ledger__value">{{ "%.2f"|format(m.devanagari_ratio) }}</span>
+    <span class="ledger__label">Devanagari ratio</span>
+  </div>
+  <div class="ledger__cell">
+    <span class="ledger__value">{{ "%.2f"|format(m.garbage_ratio) }}</span>
+    <span class="ledger__label">garbage-token ratio</span>
+  </div>
+  <div class="ledger__cell">
+    <span class="ledger__value">{{ m.char_count }}</span>
+    <span class="ledger__label">characters extracted</span>
+  </div>
+</div>
+
+{% if m.reject_reason %}
+<div class="card">
+  <h2>Why this page was rejected</h2>
+  <p style="color: var(--seal-dark);">{{ m.reject_reason }}</p>
+</div>
+{% endif %}
+
+<div class="card">
+  <h2>Extracted OCR text</h2>
+  {% if m.raw_ocr_text %}
+  <div class="deva-source">{{ m.raw_ocr_text }}</div>
+  {% else %}
+  <p>No text was extracted from this page.</p>
+  {% endif %}
+</div>
+
+{% if m.status == 'good' %}
+<a href="{{ url_for('translate', manuscript_id=m.id) }}" class="btn">Translate this manuscript →</a>
+{% endif %}
+
+{% endblock %}
