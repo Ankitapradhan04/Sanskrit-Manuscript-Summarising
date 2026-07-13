@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Not found — Sanskrit Manuscript Summarizer{% endblock %}
+{% block content %}
+<div class="empty-state">
+  <h1 style="border:none;">Nothing here</h1>
+  <p>That page or ID doesn't exist in this library.</p>
+  <a href="{{ url_for('index') }}" class="btn">Back to dashboard</a>
+</div>
+{% endblock %}
