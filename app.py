@@ -172,6 +172,10 @@ def not_found(_e):
     return render_template("404.html"), 404
 
 
+# Runs on import, not just `python app.py` directly -- gunicorn and other
+# WSGI servers import this module and use the `app` object without ever
+# executing the __main__ block below, so the DB must be ready before that.
+init_db()
+
 if __name__ == "__main__":
-    init_db()
     app.run(debug=True)
