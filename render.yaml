@@ -1,0 +1,25 @@
+# Render.com deployment config (https://render.com)
+#
+# Render can read this file automatically when you connect your GitHub repo
+# ("New +" -> "Blueprint" -> pick this repo). It builds and runs the Flask
+# app with no manual server configuration.
+#
+# Free-tier note: Render's free web services use an ephemeral filesystem,
+# so db/manuscripts.sqlite3 resets on redeploys/restarts. The preDeployCommand
+# below re-seeds the dictionary every deploy so the demo is never empty.
+# For persistent data across restarts, upgrade to a paid instance with a
+# Render Disk mounted at /opt/render/project/src/db, or swap SQLite for a
+# managed Postgres instance (a bigger change, not required just to get a
+# working demo online).
+
+services:
+  - type: web
+    name: sanskrit-manuscript-summarizer
+    runtime: python
+    buildCommand: "pip install -r requirements.txt"
+    preDeployCommand: "python -m src.dictionary_loader && python -m src.dictionary_loader --csv data/dictionary/monier_williams_full.csv --source-tag mw_import"
+    startCommand: "gunicorn app:app"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+    plan: free
